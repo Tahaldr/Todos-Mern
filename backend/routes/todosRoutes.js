@@ -9,15 +9,11 @@ todoRouter.post('/', (req, res) => {
   res.send('Todo created');
 });
 // Route for creating Todos
+todoRouter.post('/create', (req, res) => {
+  const 
 
-// todoRouter.post('/', async (req, res) => {
 
 
-
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).send({ message: error.message });
-//   }
-// });
+})
 
 export default todoRouter;
