@@ -4,13 +4,10 @@ import mongoose from 'mongoose';
 
 const todoRouter = express.Router();
 
+// Route for creating Todos
 todoRouter.post('/', (req, res) => {
   // Your logic for handling the post request
-  res.send('Todo created');
 });
-// Route for creating Todos
-todoRouter.post('/create', (req, res) => {
 
-})
 
 export default todoRouter;
