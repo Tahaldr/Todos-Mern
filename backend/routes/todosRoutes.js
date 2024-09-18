@@ -46,6 +46,20 @@ todoRouter.get('/:userId', async (req, res) => {
   }
 });
 
+// Route to get Todo using todoId
+todoRouter.get('/todo/:todoId', async (req, res) => {
+  const { todoId } = req.params; 
+  try {
+    const todo = await Todo.findById(todoId); 
+    if (!todo) {
+      return res.status(404).json({ message: 'Todo not found' });
+    }
+    res.status(200).json(todo);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching todo', error });
+  }
+});
+
 // Route to Update A Todo
 todoRouter.patch('/:todoId', async (req, res) => {
   try {

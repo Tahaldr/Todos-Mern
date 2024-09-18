@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import ProtectedRoute from './components/ProtectedRoute';
+import EditTodo from './pages/EditTodo';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/edit/:todoId" element={<EditTodo />} />
     </Routes>
   );
 }
