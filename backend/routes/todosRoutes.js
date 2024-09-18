@@ -48,9 +48,9 @@ todoRouter.get('/:userId', async (req, res) => {
 
 // Route to get Todo using todoId
 todoRouter.get('/todo/:todoId', async (req, res) => {
-  const { todoId } = req.params; 
+  const { todoId } = req.params;
   try {
-    const todo = await Todo.findById(todoId); 
+    const todo = await Todo.findById(todoId);
     if (!todo) {
       return res.status(404).json({ message: 'Todo not found' });
     }
@@ -110,15 +110,16 @@ todoRouter.delete('/:todoId', async (req, res) => {
 todoRouter.patch('/:todoId/complete', async (req, res) => {
   try {
     const { todoId } = req.params;
+    const { completed } = req.body; // Get the completed status from request body
 
-    const updatedTodo = await Todo.findByIdAndUpdate(todoId, { completed: true }, { new: true });
+    const updatedTodo = await Todo.findByIdAndUpdate(todoId, { completed }, { new: true });
 
     if (!updatedTodo) {
       return res.status(404).send({ message: 'Todo not found' });
     }
 
     return res.status(200).send({
-      message: 'Todo marked as complete successfully',
+      message: `Todo marked as ${completed ? 'complete' : 'incomplete'} successfully`,
       updatedTodo,
     });
   } catch (error) {
