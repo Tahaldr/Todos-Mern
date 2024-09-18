@@ -1,0 +1,9 @@
+.completed {
+  text-decoration: line-through;
+  color: grey;
+}
+
+.complete-checkbox {
+  margin-right: 10px;
+  cursor: pointer;
+}

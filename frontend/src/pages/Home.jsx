@@ -60,7 +60,7 @@ const Home = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
-        setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== id)); // Update state after deletion
+        setTodos((prevTodos) => prevTodos.filter((todo) => todo._id !== id));
       })
       .catch((error) => {
         console.error('Error deleting todo:', error.message);
@@ -72,6 +72,31 @@ const Home = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userId');
     navigate('/login');
+  };
+
+  // Complete Function
+  const handleComplete = (id, currentStatus) => {
+    axios
+      .patch(
+        `http://localhost:4000/todos/${id}/complete`,
+        { completed: !currentStatus },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then(() => {
+        setTodos((prevTodos) =>
+          prevTodos.map((todo) => {
+            if (todo._id === id) {
+              return { ...todo, completed: !todo.completed };
+            }
+            return todo;
+          })
+        );
+      })
+      .catch((error) => {
+        console.error('Error toggling complete status:', error.message);
+      });
   };
 
   return (
@@ -103,7 +128,15 @@ const Home = () => {
             <ul>
               {todos.map((todo) => (
                 <li key={todo._id} className="todo-item">
-                  <div className="todo-title">{todo.title}</div>
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => handleComplete(todo._id, todo.completed)} // Pass the current completion status
+                    className="complete-checkbox"
+                  />
+                  <span className={`todo-title ${todo.completed ? 'completed' : ''}`}>
+                    {todo.title}
+                  </span>
                   <div className="todo-options">
                     <Link to={`/edit/${todo._id}`}>Edit</Link>
                     <button onClick={() => handleDelete(todo._id)}>Delete</button>
