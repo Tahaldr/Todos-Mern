@@ -20,8 +20,9 @@ const Login = () => {
         console.log(response.data);
 
         // LocalStoorage is just like session
-        const token = response.data.token;
+        const { token, userId } = response.data;
         localStorage.setItem('authToken', token);
+        localStorage.setItem('userId', userId);
 
         navigate('/');
       })
