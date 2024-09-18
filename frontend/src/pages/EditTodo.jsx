@@ -20,7 +20,7 @@ const EditTodo = () => {
         headers: { Authorization: `Bearer ${token}` }, // Include token for authentication
       })
       .then((response) => {
-        console.log('Fetched Todo:', response.data);
+        // console.log('Fetched Todo:', response.data);
         if (response.data) {
           setTitle(response.data.title || ''); 
         }
