@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Login from './Login';
 import axios from 'axios';
+import LoggedNav from '../components/LoggedNav';
 const EditTodo = () => {
   const navigate = useNavigate();
   const { todoId } = useParams();
@@ -22,7 +23,7 @@ const EditTodo = () => {
       .then((response) => {
         // console.log('Fetched Todo:', response.data);
         if (response.data) {
-          setTitle(response.data.title || ''); 
+          setTitle(response.data.title || '');
         }
       })
       .catch((error) => {
@@ -63,28 +64,23 @@ const EditTodo = () => {
     !localStorage.getItem('authToken') ? (
       <Login />
     ) : (
-      <>
-        <div className="nav">
-          <h1>TodoList</h1>
-          <button onClick={handleLogout} className="logout-btn">
-            Logout
-          </button>
-        </div>
-        <div className="edit">
-          <h2>Edit Todo</h2>
-          <div className="edit-todo">
+      <div className="h-screen w-screen flex flex-col">
+        <LoggedNav action={handleLogout} />
+        <div className="h-full w-full flex flex-col justify-center items-center">
+          <div className="bg-slate-300 flex flex-col p-10 rounded-md items-center w-1/3">
+            <h2 className="h2">Edit Todo</h2>
             <input
               type="text"
               onChange={(e) => setTitle(e.target.value)}
               value={title}
-              className="edit-todo-title"
+              className="input"
             />
-            <button onClick={handleEdit} className="edit-todo-btn">
+            <button onClick={handleEdit} className="submit-btn">
               Save Changes
             </button>
           </div>
         </div>
-      </>
+      </div>
     )
   );
 };

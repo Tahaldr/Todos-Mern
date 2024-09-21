@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Login from './Login';
 import axios from 'axios';
+import LoggedNav from '../components/LoggedNav';
+import { AiFillEdit } from 'react-icons/ai';
+
+import { MdDelete } from 'react-icons/md';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -104,49 +108,66 @@ const Home = () => {
     !token ? (
       <Login />
     ) : (
-      <>
-        <div className="nav">
-          <h1>TodoList</h1>
-          <button onClick={handleLogout} className="logout-btn">
-            Logout
-          </button>
-        </div>
-        <div className="home">
-          <h2>Dashboard</h2>
-          <div className="add-todo">
-            <input
-              type="text"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-              className="add-todo-title"
-            />
-            <button onClick={handleAddTodo} className="add-todo-btn">
-              Add Todo
-            </button>
+      <div className="h-screen w-screen flex flex-col">
+        <LoggedNav action={handleLogout} />
+        <div className="h-full w-full flex justify-center items-center">
+          <div className="bg-slate-300 flex flex-col p-10 rounded-md items-center w-1/3">
+            <h2 className="h2">Dashboard</h2>
+            <div className="mb-5 w-full">
+              <input
+                type="text"
+                onChange={(e) => setTitle(e.target.value)}
+                value={title}
+                className="input"
+              />
+              <button onClick={handleAddTodo} className="submit-btn mt-0">
+                Add Todo
+              </button>
+            </div>
+            <div className="w-full max-h-60 overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 mt-4 ">
+              <ul className="w-full">
+                {todos.map((todo) => (
+                  <li
+                    key={todo._id}
+                    className="flex items-center justify-between p-3 bg-slate-400 mb-3 rounded-sm text-sm overflow-auto gap-2">
+                    <div className="flex items-center justify-center gap-3">
+                      {/* CHECKBOIX TO COMPLETE TODO */}
+                      {/*
+                        <div className="relative flex items-center">
+                          <input
+                            type="checkbox"
+                            checked={todo.completed}
+                            onChange={() => handleComplete(todo._id, todo.completed)}
+                            className="hidden peer"
+                          />
+                          <div
+                            className="w-3 h-3 border-2 border-gray-300 rounded-full flex items-center justify-center cursor-pointer peer-checked:bg-slate-500 peer-checked:border-none"
+                            onClick={() => handleComplete(todo._id, todo.completed)}>
+                          </div>
+                        </div>
+                      */}
+
+                      <span
+                        className={`todo-title ${todo.completed ? 'completed' : ''} cursor-pointer`}
+                        onClick={() => handleComplete(todo._id, todo.completed)}>
+                        {todo.title}
+                      </span>
+                    </div>
+                    <div className="text-lg flex items-center justify-center gap-3">
+                      <Link to={`/edit/${todo._id}`}>
+                        <AiFillEdit />
+                      </Link>
+                      <button onClick={() => handleDelete(todo._id)} className="text-red-600">
+                        <MdDelete />
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <div className="todo-list">
-            <ul>
-              {todos.map((todo) => (
-                <li key={todo._id} className="todo-item">
-                  <input
-                    type="checkbox"
-                    checked={todo.completed}
-                    onChange={() => handleComplete(todo._id, todo.completed)} // Pass the current completion status
-                    className="complete-checkbox"
-                  />
-                  <span className={`todo-title ${todo.completed ? 'completed' : ''}`}>
-                    {todo.title}
-                  </span>
-                  <div className="todo-options">
-                    <Link to={`/edit/${todo._id}`}>Edit</Link>
-                    <button onClick={() => handleDelete(todo._id)}>Delete</button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
-      </>
+      </div>
     )
   );
 };

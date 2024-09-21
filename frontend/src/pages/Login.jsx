@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import Nav from '../components/Nav';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -33,20 +34,18 @@ const Login = () => {
   };
 
   return (
-    <>
-      <div className="nav">
-        <h1>TodoList</h1>
-      </div>
-      <div className="login">
-        <div className="loginMain">
-          <h2>Login</h2>
+    <div className="h-screen w-screen flex flex-col">
+      <Nav />
+      <div className="h-full w-full flex justify-center items-center">
+        <div className="bg-slate-300 flex flex-col p-10 rounded-md items-center w-96">
+          <h2 className="h2">Log in</h2>
           <input
             type="email"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-            className="email"
+            className="input"
             placeholder="Enter your email"
           />
           <input
@@ -55,19 +54,19 @@ const Login = () => {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            className="password"
+            className="input"
             placeholder="Enter your password"
           />
-          <button onClick={handleLogin}>Login</button>
-          <p>
-            Dont have an account?
-            <span>
-              <Link to="/register">Register</Link>
+          <button onClick={handleLogin} className='submit-btn'>Login</button>
+          <div className="mt-5 text-sm flex gap-2">
+            <p>Dont have an account ?</p>
+            <span className="text-blue-600 hover:underline">
+              <Link to="/register">signup</Link>
             </span>
-          </p>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
